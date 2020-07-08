@@ -6,8 +6,8 @@ in vec2 TexCoord;
 out vec4 frag_color;
 
 uniform vec3 lightColor;
-uniform vec4 vertColor;
-uniform sampler2D myTexture;
+//uniform vec4 vertColor;
+//uniform sampler2D myTexture;
 
 void main()
 {

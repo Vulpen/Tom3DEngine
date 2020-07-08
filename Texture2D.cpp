@@ -1,10 +1,11 @@
 #include "Texture2D.h"
 
+
 Texture2D::Texture2D()
 	:_textureID(0), _width(0), _height(0)
 {}
 
-bool Texture2D::loadTexture(const string& filename, bool generateMipMamps = true)
+bool Texture2D::loadTexture(const string& filename, bool generateMipMamps)
 {
 	int components;
 
@@ -48,6 +49,7 @@ bool Texture2D::loadTexture(const string& filename, bool generateMipMamps = true
 	stbi_image_free(imageData);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
+	return true;
 }
 
 void Texture2D::bind(GLuint texUnit) {
@@ -55,7 +57,7 @@ void Texture2D::bind(GLuint texUnit) {
 	glBindTexture(GL_TEXTURE_2D, _textureID);
 }
 
-void Texture2D::unbind(GLuint texUnit = 0)
+void Texture2D::unbind(GLuint texUnit)
 {
 	glActiveTexture(GL_TEXTURE0 + texUnit);
 	glBindTexture(GL_TEXTURE_2D, 0);

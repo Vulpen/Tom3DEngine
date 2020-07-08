@@ -96,6 +96,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)extern\libs\32bit</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y "./Resources" "./Debug" /E</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -115,6 +118,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)extern\libs\32bit</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y "./Resources" "./Release" /E</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -153,17 +159,43 @@
       <AdditionalDependencies>opengl32.lib;glew32s.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy /y "./Resources" "./x64/Debug" /E</Command>
+      <Command>xcopy /y "./Resources" "./x64/Release" /E</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="extern\include\imgui\imgui.cpp" />
+    <ClCompile Include="extern\include\imgui\imgui_demo.cpp" />
+    <ClCompile Include="extern\include\imgui\imgui_draw.cpp" />
+    <ClCompile Include="extern\include\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="extern\include\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="extern\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Texture2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="extern\include\imgui\imconfig.h" />
+    <ClInclude Include="extern\include\imgui\imgui.h" />
+    <ClInclude Include="extern\include\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="extern\include\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="extern\include\imgui\imgui_internal.h" />
+    <ClInclude Include="extern\include\imgui\imstb_rectpack.h" />
+    <ClInclude Include="extern\include\imgui\imstb_textedit.h" />
+    <ClInclude Include="extern\include\imgui\imstb_truetype.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Texture2D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Shaders\basic.frag" />
+    <None Include="Resources\Shaders\basic.vert" />
+    <None Include="Resources\Shaders\light _directional.frag" />
+    <None Include="Resources\Shaders\light.frag" />
+    <None Include="Resources\Shaders\light.vert" />
+    <None Include="Resources\Shaders\light_directional.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

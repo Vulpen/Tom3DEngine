@@ -49,10 +49,10 @@ void Mesh::initializeGLBuffers()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(0));
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(0) * 3);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(GLfloat) * 3));
     glEnableVertexAttribArray(1);
 
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(0) * 3);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(sizeof(GLfloat) * 6));
     glEnableVertexAttribArray(2);
 
     glBindVertexArray(0);
@@ -79,7 +79,6 @@ bool Mesh::Load(const std::string& filename)
 
 		if (!fin)
 		{
-			std::cerr << strerror(errno) << std::endl;
 			std::cerr << "Cannot open " << filename << std::endl;
 			return false;
 		}
@@ -183,7 +182,7 @@ bool Mesh::Load(const std::string& filename)
 
 		// Create and initialize the buffers
 		initializeGLBuffers();
-
+		std::cout << "Finished Loading OBJ File" << std::endl;
 		return (_isLoaded = true);
 	}
 
