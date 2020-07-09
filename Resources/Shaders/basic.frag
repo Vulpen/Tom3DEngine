@@ -12,6 +12,7 @@ uniform vec3 lightColor;
 void main()
 {
 	frag_color = vec4(lightColor, 1.0f);
+	frag_color = vec4(1.0f,1.0f,0.0f,1.0f);
 	//frag_color = frag_color * dot(NormalVec, vec3(0.0,1.0,0.0)) * 10;
 	//frag_color = vec4(NormalVec,1.0f);
 };

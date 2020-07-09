@@ -6,7 +6,7 @@ Camera::Camera()
 	mUp(glm::vec3(0.0f, 1.0f, 0.0f)),
 	mRight(0.0f, 0.0f, 0.0f),
 	WORLD_UP(0.0f, 1.0f, 0.0f),
-	mYaw(glm::pi<float>()),
+	mYaw(0.0f),
 	mPitch(0.0f),
 	mLook(0.0f,0.0f,-1.0f)
 {
@@ -15,6 +15,14 @@ Camera::Camera()
 
 glm::mat4 Camera::getViewMatrix() const {
 	return glm::lookAt(mPosition, mTargetPos, mUp);
+}
+
+const float Camera::getYaw() const {
+	return mYaw;
+}
+
+const float Camera::getPitch() const {
+	return mPitch;
 }
 
 const glm::vec3& Camera::getLook() const
@@ -41,6 +49,7 @@ FPSCamera::FPSCamera(glm::vec3 position, float yaw, float pitch) {
 	mPosition = position;
 	mYaw = yaw;
 	mPitch = pitch;
+	updateCameraVectors();
 }
 
 void FPSCamera::setPosition(const glm::vec3& position)
@@ -53,6 +62,8 @@ void FPSCamera::rotate(float yaw, float pitch)
 	mPitch += glm::radians(pitch);
 
 	mPitch = glm::clamp(mPitch, -glm::pi<float>() / 2.0f + 0.1f, glm::pi<float>() / 2.0f - 0.1f);
+	//if (mYaw > glm::pi<float>()) mYaw -= glm::pi<float>();
+	//if (mYaw < -glm::pi<float>()) mYaw += glm::pi<float>();
 	updateCameraVectors();
 }
 void FPSCamera::move(const glm::vec3& offset)

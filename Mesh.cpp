@@ -31,6 +31,7 @@ void Mesh::Draw() {
     if (!_isLoaded) return;
 
     glBindVertexArray(_vertexArray);
+	glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
     glDrawArrays(GL_TRIANGLES, 0, _vertices.size());
     glBindVertexArray(0);
 }
