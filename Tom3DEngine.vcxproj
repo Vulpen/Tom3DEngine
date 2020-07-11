@@ -192,6 +192,8 @@
   <ItemGroup>
     <None Include="Resources\Shaders\basic.frag" />
     <None Include="Resources\Shaders\basic.vert" />
+    <None Include="Resources\Shaders\gooch.frag" />
+    <None Include="Resources\Shaders\gooch.vert" />
     <None Include="Resources\Shaders\light _directional.frag" />
     <None Include="Resources\Shaders\light.frag" />
     <None Include="Resources\Shaders\light.vert" />

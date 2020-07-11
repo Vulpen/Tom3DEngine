@@ -106,5 +106,7 @@
     <None Include="Resources\Shaders\light_directional.vert">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="Resources\Shaders\gooch.frag" />
+    <None Include="Resources\Shaders\gooch.vert" />
   </ItemGroup>
 </Project>

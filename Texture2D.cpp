@@ -1,5 +1,7 @@
 #include "Texture2D.h"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb-master/stb_image.h"
 
 Texture2D::Texture2D()
 	:_textureID(0), _width(0), _height(0)
