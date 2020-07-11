@@ -33,6 +33,8 @@ FPSCamera mainCamera(glm::vec3(0.0f, 0.0f, 0.0f));
 const float MOUSE_SENSITIVITY = -0.023f;
 bool CursorEnabled = false;
 
+void EngineUpdate(double deltaTime, FPSCamera &camera, WindowInfo info);
+
 void glfw_OnMouseMove(GLFWwindow* window, double posX, double posY) {
 	static glm::vec2 lastMousePos = glm::vec2(0, 0);
 
@@ -135,11 +137,11 @@ void InitializeWindow(WindowInfo &info) {
 		return;
 	}
 
-	glClearColor(0.0f, 0.35f, 0.75f, 1.0f);
+	glClearColor(0.12f, 0.3f, 0.43f, 1.0f);
 	glViewport(0, 0, info.Width, info.Height);
 	glEnable(GL_DEPTH_TEST);
 
-	glfwSetKeyCallback(info.Window, key_callback);
+	//glfwSetKeyCallback(info.Window, key_callback);
 	glfwSetCursorPosCallback(info.Window, glfw_OnMouseMove);
 
 	//Hide and grab cursor, unlimited movement
@@ -152,12 +154,6 @@ void InitializeWindow(WindowInfo &info) {
 	ImGui_ImplGlfw_InitForOpenGL(info.Window, true);
 	ImGui_ImplOpenGL3_Init("#version 330");
 }
-
-const char* APP_TITLE = "Tom's 3D Engine!";
-const int WIDTH = 1024;
-const int HEIGHT = 768;
-const bool FULLSCREEN = false;
-GLFWwindow* activeWindow = NULL;
 
 int main()
 {
@@ -185,19 +181,25 @@ int main()
 	glm::mat4 perspectiveMatrix = WindowInfo::GetPerspective(myWindow);
 
 	while (!glfwWindowShouldClose(myWindow.Window)) {
+		static double lastTime;
+		double curTime = glfwGetTime();
+		double deltaTime = curTime - lastTime;
+		lastTime = curTime;
+		glfwPollEvents();
+		EngineUpdate(deltaTime, mainCamera, myWindow);
+
 		glm::mat4 viewMatrix = mainCamera.getViewMatrix();
 		glm::mat4 modelMatrix = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -5.0f, -15.0f));
 		//mainCamera.rotate(0.2f, 0.0f);
 
-		glfwPollEvents();
 		glClear(GL_COLOR_BUFFER_BIT);
 		glClear(GL_DEPTH_BUFFER_BIT);
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 		ImGui::Begin("A Window!");
-		ImGui::Text(glm::to_string(mainCamera.getPosition()).c_str() );
-		ImGui::Text(glm::to_string(mainCamera.getLook()).c_str() );
+		ImGui::Text(("Camera Position: " + glm::to_string(mainCamera.getPosition())).c_str() );
+		ImGui::Text(("Camera Look: " + glm::to_string(mainCamera.getLook())).c_str() );
 		ImGui::End();
 
 		std::stringstream ss;
@@ -231,4 +233,41 @@ int main()
 
 	glfwTerminate();
 	return 0;
+}
+
+void EngineUpdate(double deltaTime, FPSCamera &camera, WindowInfo info) {
+	static const float MOVE_SPEED = 5.0f;
+
+	if (glfwGetKey(info.Window, GLFW_KEY_W) == GLFW_PRESS) {
+		camera.move(MOVE_SPEED * (float)deltaTime * camera.getLook());
+	}
+	if (glfwGetKey(info.Window, GLFW_KEY_S) == GLFW_PRESS) {
+		camera.move(-1.0f * MOVE_SPEED * (float)deltaTime * camera.getLook());
+	}
+	if (glfwGetKey(info.Window, GLFW_KEY_D) == GLFW_PRESS) {
+		camera.move(MOVE_SPEED * (float)deltaTime * camera.getRight());
+	}
+	if (glfwGetKey(info.Window, GLFW_KEY_A) == GLFW_PRESS) {
+		camera.move(-1.0f * MOVE_SPEED * (float)deltaTime * camera.getRight());
+	}
+	if (glfwGetKey(info.Window, GLFW_KEY_Q) == GLFW_PRESS) {
+		camera.move(MOVE_SPEED * (float)deltaTime * camera.getUp());
+	}
+	if (glfwGetKey(info.Window, GLFW_KEY_Z) == GLFW_PRESS) {
+		camera.move(-1.0f * MOVE_SPEED * (float)deltaTime * camera.getUp());
+	}
+	if (glfwGetKey(info.Window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS) {
+		if (CursorEnabled)
+		{
+			glfwSetInputMode(info.Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		}
+		else {
+			glfwSetInputMode(info.Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
+		CursorEnabled = !CursorEnabled;
+	}
+	if (glfwGetKey(info.Window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+		glfwSetWindowShouldClose(info.Window, GLFW_TRUE);
+	}
+
 }
