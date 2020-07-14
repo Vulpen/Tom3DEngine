@@ -11,7 +11,18 @@
 #include "Mesh.h"
 #include "ShaderProgram.h"
 #include "Texture2D.h"
+#include "Transform.h"
 #include "glm/gtx/string_cast.hpp"
+
+class base {
+public:
+	void foo() { std::cout << "base::foo()" << std::endl; }
+};
+
+class derived : public base{
+public:
+	void foo() { std::cout << "derived::foo()" << std::endl; }
+};
 
 struct WindowInfo {
 	std::string Title;
@@ -29,6 +40,7 @@ struct WindowInfo {
 };
 
 FPSCamera mainCamera(glm::vec3(0.0f, 0.0f, 0.0f));
+Transform debugTransform;
 
 const float MOUSE_SENSITIVITY = -0.023f;
 bool CursorEnabled = false;
@@ -48,62 +60,6 @@ void glfw_OnMouseMove(GLFWwindow* window, double posX, double posY) {
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (key == GLFW_KEY_E && action == GLFW_PRESS) 
-	{
-		int debug = 1;
-	}
-
-	if (key == GLFW_KEY_W && action == GLFW_PRESS)
-	{
-		mainCamera.move(mainCamera.getLook());
-	}
-
-	if (key == GLFW_KEY_S && action == GLFW_PRESS)
-	{
-		mainCamera.move(-1.0f * mainCamera.getLook());
-	}
-
-	if (key == GLFW_KEY_D && action == GLFW_PRESS)
-	{
-		mainCamera.move(mainCamera.getRight());
-	}
-
-	if (key == GLFW_KEY_A && action == GLFW_PRESS)
-	{
-		mainCamera.move(-1.0f * mainCamera.getRight());
-	}
-
-	if (key == GLFW_KEY_Q && action == GLFW_PRESS)
-	{
-		mainCamera.move(mainCamera.getUp());
-	}
-
-	if (key == GLFW_KEY_Z && action == GLFW_PRESS)
-	{
-		mainCamera.move(-1.0f * mainCamera.getUp());
-	}
-
-	if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS)
-	{
-		mainCamera.rotate(-0.45f, 0.0f);
-	}
-
-	if (key == GLFW_KEY_LEFT && action == GLFW_PRESS)
-	{
-		mainCamera.rotate(0.45f, 0.0f);
-	}
-
-	if (key == GLFW_KEY_LEFT_ALT && action == GLFW_PRESS)
-	{
-		if (CursorEnabled)
-		{
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		}
-		else {
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-		}
-		CursorEnabled = !CursorEnabled;
-	}
 		
 }
 
@@ -200,6 +156,7 @@ int main()
 		ImGui::Begin("A Window!");
 		ImGui::Text(("Camera Position: " + glm::to_string(mainCamera.getPosition())).c_str() );
 		ImGui::Text(("Camera Look: " + glm::to_string(mainCamera.getLook())).c_str() );
+		ImGui::Text(("Transform Position: " + glm::to_string(debugTransform.GetPosition())).c_str());
 		ImGui::End();
 
 		std::stringstream ss;

@@ -14,7 +14,7 @@ Camera::Camera()
 }
 
 glm::mat4 Camera::getViewMatrix() const {
-	return glm::lookAt(mPosition, mTargetPos, mUp);
+	return glm::lookAt(mPosition, mTargetPos, mUp); //Note: this creates a view matrix; inverse of the actual camera matrix
 }
 
 const float Camera::getYaw() const {
