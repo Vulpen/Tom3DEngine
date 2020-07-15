@@ -11,7 +11,10 @@ public:
 	glm::vec3 GetRight();
 	glm::vec3 GetUp();
 	glm::vec3 GetLookTarget();
+
+	void Move(const glm::vec3 offset);
 	void ApplyYawPitch(float yaw, float pitch);
+	void ApplyYawPitchR(float yaw, float pitch);
 
 
 	glm::vec3 Position;

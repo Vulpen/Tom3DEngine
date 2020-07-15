@@ -8,38 +8,44 @@ Camera::Camera()
 	WORLD_UP(0.0f, 1.0f, 0.0f),
 	mYaw(0.0f),
 	mPitch(0.0f),
-	mLook(0.0f,0.0f,-1.0f)
+	mLook(0.0f,0.0f,-1.0f),
+	CameraTransform()
 {
 
 }
 
-glm::mat4 Camera::getViewMatrix() const {
-	return glm::lookAt(mPosition, mTargetPos, mUp); //Note: this creates a view matrix; inverse of the actual camera matrix
+glm::mat4 Camera::getViewMatrix(){
+	//return glm::lookAt(mPosition, mTargetPos, mUp); //Note: this creates a view matrix; inverse of the actual camera matrix
+	return glm::lookAt(CameraTransform.GetPosition(), CameraTransform.GetLookTarget(), CameraTransform.GetUp());
 }
 
-const float Camera::getYaw() const {
+float Camera::getYaw(){
 	return mYaw;
 }
 
-const float Camera::getPitch() const {
+float Camera::getPitch(){
 	return mPitch;
 }
 
-const glm::vec3& Camera::getLook() const
+glm::vec3 Camera::getLook()
 {
-	return mLook;
+	//return mLook;
+	return CameraTransform.GetForward();
 }
-const glm::vec3& Camera::getRight() const
+glm::vec3 Camera::getRight()
 {
-	return mRight;
+	//return mRight;
+	return CameraTransform.GetRight();
 }
-const glm::vec3& Camera::getUp() const
+glm::vec3 Camera::getUp()
 {
-	return mUp;
+	//return mUp;
+	return CameraTransform.GetUp();
 }
-const glm::vec3& Camera::getPosition() const
+glm::vec3 Camera::getPosition()
 {
-	return mPosition;
+	//return mPosition;
+	return CameraTransform.GetPosition();
 }
 
 //----------
@@ -55,6 +61,7 @@ FPSCamera::FPSCamera(glm::vec3 position, float yaw, float pitch) {
 void FPSCamera::setPosition(const glm::vec3& position)
 {
 	mPosition = position;
+	CameraTransform.Position = position;
 }
 void FPSCamera::rotate(float yaw, float pitch)
 {
@@ -62,14 +69,16 @@ void FPSCamera::rotate(float yaw, float pitch)
 	mPitch += glm::radians(pitch);
 
 	mPitch = glm::clamp(mPitch, -glm::pi<float>() / 2.0f + 0.1f, glm::pi<float>() / 2.0f - 0.1f);
-	//if (mYaw > glm::pi<float>()) mYaw -= glm::pi<float>();
-	//if (mYaw < -glm::pi<float>()) mYaw += glm::pi<float>();
-	updateCameraVectors();
+	/*if (mYaw > glm::pi<float>()) mYaw -= glm::pi<float>();
+	if (mYaw < -glm::pi<float>()) mYaw += glm::pi<float>();*/
+	//updateCameraVectors();
+	CameraTransform.ApplyYawPitchR(mYaw, mPitch);
 }
 void FPSCamera::move(const glm::vec3& offset)
 {
 	mPosition = mPosition + offset;
 	updateCameraVectors();
+	CameraTransform.Move(offset);
 }
 
 void FPSCamera::updateCameraVectors()
@@ -85,6 +94,7 @@ void FPSCamera::updateCameraVectors()
 	mUp = glm::normalize(glm::cross(mRight, mLook));
 
 	mTargetPos = mPosition + mLook;
+	mTargetPos = CameraTransform.GetLookTarget();
 }
 
 //------------

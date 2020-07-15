@@ -1,4 +1,5 @@
 #pragma once
+#include "Transform.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 
@@ -6,17 +7,18 @@
 class Camera
 {
 public:
-	glm::mat4 getViewMatrix() const;
+	Transform CameraTransform;
+	glm::mat4 getViewMatrix();
 	virtual void rotate(float yaw, float pitch) {}
 	virtual void setPosition(const glm::vec3& position) {}
 	virtual void move(const glm::vec3& offset) {}
 
-	const glm::vec3& getLook() const;
-	const glm::vec3& getRight() const;
-	const glm::vec3& getUp() const;
-	const glm::vec3& getPosition() const;
-	const float getYaw() const;
-	const float getPitch() const;
+	glm::vec3 getLook() ;
+	glm::vec3 getRight() ;
+	glm::vec3 getUp() ;
+	glm::vec3 getPosition() ;
+	float getYaw() ;
+	float getPitch() ;
 
 	float getFOV() { return mFOV; }
 	float setFOV(float in) { mFOV = in; }

@@ -27,8 +27,18 @@ glm::vec3 Transform::GetLookTarget() {
 	return GetPosition() + GetForward();
 }
 
+void Transform::Move(const glm::vec3 offset)
+{
+	Position += offset;
+}
+
 void Transform::ApplyYawPitch(float yaw, float pitch)
 {
 	quat newRot = quat(vec3(radians(pitch), radians(yaw), 0.0f));
-	RotationQuaternion = RotationQuaternion * newRot;
+	RotationQuaternion = newRot;
+}
+
+void Transform::ApplyYawPitchR(float yaw, float pitch) {
+	quat newRot = quat(vec3(pitch, yaw, 0.0f));
+	RotationQuaternion = newRot;
 }
